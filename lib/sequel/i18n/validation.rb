@@ -7,13 +7,16 @@ module Sequel
             begin
               message = ::I18n.t!("sequel.errors.#{type.to_s}")
               validate_no_params(type, message)
+            rescue e
+              p e
             end
           end
           [:exact_length, :max_length, :min_length, :type].each do |type|
             validate_has_block do |arg|
               begin
                 ::I18n.t!("sequel.errors.#{type.to_s}", arg: arg)
-              rescue
+              rescue e
+                p e
               end
             end
           end
