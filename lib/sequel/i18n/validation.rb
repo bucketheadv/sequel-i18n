@@ -13,7 +13,7 @@ module Sequel
             end
           end
           [:exact_length, :max_length, :min_length, :type].each do |type|
-            validate_has_block do |arg|
+            validate_has_block(type) do |arg|
               begin
                 ::I18n.t!("sequel.errors.#{type.to_s}", arg: arg)
               rescue StandardError => e
@@ -29,7 +29,7 @@ module Sequel
           )
         end
 
-        def validate_has_block(&block)
+        def validate_has_block(field, &block)
           ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
             field => {message: block}
           )
