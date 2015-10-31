@@ -4,10 +4,12 @@ class Sequel::I18n::Validation
     def load 
       validation_options = ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.dup
       [:format, :integer, :length_range,:not_null, :numeric, :presence, :unique].each do |type|
-        begin
-          message = ::I18n.t!("errors.#{type.to_s}")
-          validate_no_params(type, message)
-        rescue StandardError => _
+        validate_no_params(type) do 
+          begin
+            I18n.t!("errors.#{type.to_s}")
+          rescue StandardError => _
+            validation_options[type][:message].call
+          end
         end
       end
       [:exact_length, :max_length, :min_length, :type, :includes].each do |type|
@@ -28,9 +30,9 @@ class Sequel::I18n::Validation
       end
     end
 
-    def validate_no_params(field, message)
+    def validate_no_params(field, &block)
       ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
-        field => {message: message}
+        field => {message: block}
       )
     end
 
