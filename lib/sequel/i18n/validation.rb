@@ -23,6 +23,7 @@ class Sequel::I18n::Validation
         begin
           ::I18n.t!("errors.schema_types", schema_type: arg)
         rescue StandardError => _
+          validation_options[type][:schema_types].call(arg)
         end
       end
     end
