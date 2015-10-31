@@ -1,6 +1,6 @@
 class Sequel::Model
   plugin :after_initialize
   def after_initialize 
-    p "hello world"
+    self.errors.model_name = self.class.name
   end
 end
