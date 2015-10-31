@@ -15,7 +15,7 @@ class Sequel::I18n::Validation
           begin
             ::I18n.t!("errors.#{type.to_s}", arg: arg) 
           rescue StandardError => _
-            validation_options[type][:message]
+            validation_options[type][:message].call(arg)
           end
         end
       end
