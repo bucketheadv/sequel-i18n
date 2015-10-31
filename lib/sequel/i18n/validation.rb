@@ -5,14 +5,14 @@ module Sequel
         def load 
           [:format, :integer, :length_range,:not_null, :numeric, :presence, :unique].each do |type|
             begin
-              message = ::I18n.t!("sequel.errors.#{type.to_s}")
+              message = ::I18n.t!("errors.#{type.to_s}")
               validate_no_params(type, message)
             end
           end
           [:exact_length, :max_length, :min_length, :type].each do |type|
             validate_has_block do |arg|
               begin
-                ::I18n.t!("sequel.errors.#{type.to_s}", arg: arg)
+                ::I18n.t!("errors.#{type.to_s}", arg: arg)
               rescue
               end
             end
