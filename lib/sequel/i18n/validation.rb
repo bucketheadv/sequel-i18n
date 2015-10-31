@@ -3,7 +3,7 @@ class Sequel::I18n::Validation
   class << self 
     def load 
       validation_options = ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.dup
-      [:integer, :length_range,:not_null, :numeric, :presence, :unique].each do |type|
+      [:integer, :not_null, :numeric, :presence, :unique].each do |type|
         validate_no_params(type) do 
           begin
             I18n.t!("errors.#{type.to_s}")
@@ -12,7 +12,7 @@ class Sequel::I18n::Validation
           end
         end
       end
-      [:format, :exact_length, :max_length, :min_length, :type, :includes].each do |type|
+      [:format, :length_range, :exact_length, :max_length, :min_length, :type, :includes].each do |type|
         validate_has_block(type) do |arg|
           begin
             ::I18n.t!("errors.#{type.to_s}", arg: arg) 
