@@ -10,12 +10,13 @@ class Sequel::I18n::Validation
         end
       end
       [:exact_length, :max_length, :min_length, :type, :includes].each do |type|
-        validate_has_block(type) do |arg|
           begin
-            ::I18n.t!("errors.#{type.to_s}", arg: arg)
+            ::I18n.t!("errors.#{type.to_s}") # To ensure the exception before return
+            validate_has_block(type) do |arg|
+              ::I18n.t!("errors.#{type.to_s}", arg: arg)
+            end
           rescue StandardError => _
           end
-        end
       end
       validate_has_block(:schema_types) do |arg|
         begin
