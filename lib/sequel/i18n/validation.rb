@@ -32,7 +32,7 @@ class Sequel::I18n::Validation
 
     def validate_no_params(field, &block)
       ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
-        field => {message: block.call}
+        field => {message: block}
       )
     end
 
