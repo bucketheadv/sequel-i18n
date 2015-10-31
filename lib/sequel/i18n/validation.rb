@@ -7,7 +7,7 @@ module Sequel
             begin
               message = ::I18n.t!("sequel.errors.#{type.to_s}")
               validate_no_params(type, message)
-            rescue e
+            rescue StandardError => e
               p e
             end
           end
@@ -15,7 +15,7 @@ module Sequel
             validate_has_block do |arg|
               begin
                 ::I18n.t!("sequel.errors.#{type.to_s}", arg: arg)
-              rescue e
+              rescue StandardError => e
                 p e
               end
             end
