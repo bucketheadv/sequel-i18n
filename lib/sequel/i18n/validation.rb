@@ -13,7 +13,10 @@ class Sequel::I18n::Validation
           begin
             ::I18n.t!("errors.#{type.to_s}") # To ensure the exception before return
             validate_has_block(type) do |arg|
-              ::I18n.t!("errors.#{type.to_s}", arg: arg)
+              begin 
+                ::I18n.t!("errors.#{type.to_s}", arg: arg)
+              rescue StandardError => _
+              end
             end
           rescue StandardError => _
           end
