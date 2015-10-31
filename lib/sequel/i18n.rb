@@ -9,4 +9,3 @@ module Sequel
   end
 end
 
-Sequel::I18n::Validation.load
