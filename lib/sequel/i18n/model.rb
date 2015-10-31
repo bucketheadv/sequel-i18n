@@ -1,7 +1,6 @@
 class Sequel::Model
-  plugin :instance_hooks
-  
-  initialize_hook {
-    p "Hello world!"
+  plugin :after_initialize
+  after_initialize {
+    p "hello world"
   }
 end
