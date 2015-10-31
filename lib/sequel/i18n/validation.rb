@@ -6,17 +6,27 @@ class Sequel::I18n::Validation
         begin
           message = ::I18n.t!("errors.#{type.to_s}")
           validate_no_params(type, message)
-        rescue StandardError => e
-          p e
+        rescue StandardError => _
         end
       end
       [:exact_length, :max_length, :min_length, :type].each do |type|
         validate_has_block(type) do |arg|
           begin
             ::I18n.t!("errors.#{type.to_s}", arg: arg)
-          rescue StandardError => e
-            p e
+          rescue StandardError => _
           end
+        end
+      end
+      validate_has_block(:schema_types) do |arg|
+        begin
+          ::I18n.t!("errors.schema_types", schema_type: arg)
+        rescue StandardError => _
+        end
+      end
+      validate_has_block(:includes) do |arg|
+        begin
+          ::I18n.t!("errors.includes", "arg.inspect" => arg.inspect)
+        rescue StandardError => _
         end
       end
     end
