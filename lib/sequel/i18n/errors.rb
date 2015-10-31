@@ -4,9 +4,18 @@ class Sequel::Model::Errors
     inject([]) do |m, kv|
       att, errors = *kv
       attr_name = model_name.to_s.downcase
-      att.is_a?(Array) ? Array(att).map! { |v| I18n.t("#{attr_name}.attributes.#{v}")} : att = I18n.t("#{attr_name}.attributes.#{att}")
+      att.is_a?(Array) ? Array(att).map! { |v| i18n(attr_name, v) } : att = i18n(attr_name,att)
       errors.each {|e| m << (e.is_a?(::Sequel::LiteralString) ? e : "#{Array(att).join(ATTRIBUTE_JOINER)} #{e}")}
       m
+    end
+  end
+
+  private
+  def i18n(m_name, m_v)
+    begin
+      I18n.t!("#{m_name}.attributes.#{m_v}")
+    rescue
+      m_v
     end
   end
 end
