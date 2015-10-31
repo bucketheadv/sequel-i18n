@@ -1,3 +1,4 @@
+require "sequel/plugins/validation_helpers"
 module Sequel 
   module I18n 
     module Validation 
