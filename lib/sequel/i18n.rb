@@ -9,8 +9,3 @@ module Sequel
   end
 end
 
-if defined?(Padrino)
-  Padrino.after_load do 
-    Sequel::I18n::Validation.load
-  end
-end
