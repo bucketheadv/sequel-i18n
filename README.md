@@ -9,7 +9,7 @@ TODO: Delete this and the text above, and describe your gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sequel-i18n'
+gem 'sequel-i18n', github: 'sven199109/sequel-i18n'
 ```
 
 And then execute:
@@ -22,7 +22,36 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In your locales yaml file, like below(`zh_cn.yml`):
+
+```ruby 
+sequel: &sequel
+  user:                        
+    attributes:                
+      name: '用户名'
+      email: '邮箱'            
+      password: '密码'         
+  errors:
+    includes: "不在%{arg}内"   
+    joiner: " 和 "             
+    blank: "不能为空"          
+    format: "格式不正确"
+    presence: "不能为空"       
+    type: "不是一个%{arg}"     
+    min_length: "最短为%{arg}" 
+
+zh_cn:
+  <<: *sequel
+``` 
+
+In padrino, add this to `config/boot.rb`.
+
+```ruby 
+Padrino.after_load do
+  Sequel::I18n::Validation.load
+end
+```
+Then, enjoy it!
 
 ## Development
 
