@@ -34,7 +34,6 @@ sequel: &sequel
   errors:
     includes: "不在%{arg}内"   
     joiner: " 和 "             
-    blank: "不能为空"          
     format: "格式不正确"
     presence: "不能为空"       
     type: "不是一个%{arg}"     
