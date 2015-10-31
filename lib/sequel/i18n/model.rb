@@ -1,0 +1,2 @@
+class Sequel::Model
+end
