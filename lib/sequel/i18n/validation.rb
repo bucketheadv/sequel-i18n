@@ -2,6 +2,7 @@ require "sequel/plugins/validation_helpers"
 class Sequel::I18n::Validation 
   class << self 
     def load 
+      validation_options = ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.dup
       [:format, :integer, :length_range,:not_null, :numeric, :presence, :unique].each do |type|
         begin
           message = ::I18n.t!("errors.#{type.to_s}")
@@ -11,7 +12,11 @@ class Sequel::I18n::Validation
       end
       [:exact_length, :max_length, :min_length, :type, :includes].each do |type|
         validate_has_block(type) do |arg|
-          ::I18n.t!("errors.#{type.to_s}", arg: arg) rescue validation_options[type][:message].call(arg)
+          begin
+            ::I18n.t!("errors.#{type.to_s}", arg: arg) 
+          rescue StandardError => _
+            validation_options[type][:message]
+          end
         end
       end
       validate_has_block(:schema_types) do |arg|
@@ -32,10 +37,6 @@ class Sequel::I18n::Validation
       ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
         field => {message: block}
       )
-    end
-    private
-    def validation_options
-      ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS
     end
   end
 end
