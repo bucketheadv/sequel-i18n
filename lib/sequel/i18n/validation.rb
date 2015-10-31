@@ -10,16 +10,9 @@ class Sequel::I18n::Validation
         end
       end
       [:exact_length, :max_length, :min_length, :type, :includes].each do |type|
-          begin
-            ::I18n.t!("errors.#{type.to_s}") # To ensure the exception before return
-            validate_has_block(type) do |arg|
-              begin 
-                ::I18n.t!("errors.#{type.to_s}", arg: arg)
-              rescue StandardError => _
-              end
-            end
-          rescue StandardError => _
-          end
+        validate_has_block(type) do |arg|
+          ::I18n.t!("errors.#{type.to_s}", arg: arg) rescue validation_options[type][:message].call(arg)
+        end
       end
       validate_has_block(:schema_types) do |arg|
         begin
@@ -39,6 +32,10 @@ class Sequel::I18n::Validation
       ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS.merge!(
         field => {message: block}
       )
+    end
+    private
+    def validation_options
+      ::Sequel::Plugins::ValidationHelpers::DEFAULT_OPTIONS
     end
   end
 end
