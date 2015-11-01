@@ -12,3 +12,7 @@ end
 if defined?(Rails)
   require "sequel/i18n/railtie"
 end
+
+if defined?(Padrino)
+  require "sequel/i18n/padrino"
+end
