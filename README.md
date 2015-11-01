@@ -43,13 +43,6 @@ zh_cn:
   <<: *sequel
 ``` 
 
-In padrino, add this to `config/boot.rb`.
-
-```ruby 
-Padrino.after_load do
-  Sequel::I18n::Validation.load
-end
-```
 Then, enjoy it!
 
 ## Development
