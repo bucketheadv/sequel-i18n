@@ -9,3 +9,6 @@ module Sequel
   end
 end
 
+if defined?(Rails)
+  require "sequel/i18n/railtie"
+end
