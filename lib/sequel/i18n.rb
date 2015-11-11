@@ -10,4 +10,4 @@ module Sequel
 end
 
 require "sequel/i18n/railtie" if defined?(Rails)
-require "sequel/i18n/padrino" if defined?(Padrino)
+Sequel::I18n::Validation.load if defined?(Padrino)
